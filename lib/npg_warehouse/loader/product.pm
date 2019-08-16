@@ -126,7 +126,10 @@ sub load_iseq_product_metrics_table {
     foreach my $h (@rows) {
       my $action = 'updated';
       my $result = $rs->find_or_new($h->{'data'});
-      my $calc_fk = $h->{'num_components'} == 1 && $self->can('get_lims_fk');
+      my $calc_fk = $h->{'num_components'} == 1 &&
+                    $self->can('lims_fk_repair') &&
+                    $self->lims_fk_repair &&
+                    $self->can('get_lims_fk');
       my $fk = $calc_fk ? $self->get_lims_fk($result) : undef;
       if (!$result->in_storage) {
         $action = 'created';

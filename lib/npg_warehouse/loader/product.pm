@@ -135,7 +135,7 @@ sub load_iseq_product_metrics_table {
         $self->_create_linking_rows(
           $result, $h->{'num_components'}, $h->{'composition'});
       } else {
-        $h->{'data'}->{$LIMS_FK_COLUMN_NAME} = $fk;
+        $fk && ($h->{'data'}->{$LIMS_FK_COLUMN_NAME} = $fk);
         $result->update($h->{'data'});
       }
       if ($self->verbose) {

@@ -109,11 +109,9 @@ npg_warehouse::loader::run->new(
   my $no_fk_rs = $rs->search({id_run => 4486, id_iseq_flowcell_tmp => undef});
   # multiple flowcell table records for lane 1
   # lims data missing for lane 5
-  TODO: { local $TODO = q(Need to not blank fk on simple, non-fk checking, update);
   is ($no_fk_rs->count, 2, 'two rows for run 4486 are without the fk');
   @lanes = sort map {$_->position} $no_fk_rs->all;
   is (join(q[ ], @lanes), '1 5', 'no fk for lanes 1 and 5');
-  };
 
   $no_fk_rs = $rs->search({id_run => 6998, id_iseq_flowcell_tmp => undef});
   my $tags = { };

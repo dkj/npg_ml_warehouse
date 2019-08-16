@@ -126,8 +126,8 @@ sub load_iseq_product_metrics_table {
     foreach my $h (@rows) {
       my $action = 'updated';
       my $result = $rs->find_or_new($h->{'data'});
-      my $fk = ($h->{'num_components'} == 1 && $self->can('get_lims_fk'))
-	       ? $self->get_lims_fk($result) : undef;
+      my $calc_fk = $h->{'num_components'} == 1 && $self->can('get_lims_fk');
+      my $fk = $calc_fk ? $self->get_lims_fk($result) : undef;
       if (!$result->in_storage) {
         $action = 'created';
         $fk && $result->set_column($LIMS_FK_COLUMN_NAME => $fk);
@@ -135,7 +135,7 @@ sub load_iseq_product_metrics_table {
         $self->_create_linking_rows(
           $result, $h->{'num_components'}, $h->{'composition'});
       } else {
-        $fk && ($h->{'data'}->{$LIMS_FK_COLUMN_NAME} = $fk);
+        $calc_fk && ($h->{'data'}->{$LIMS_FK_COLUMN_NAME} = $fk);
         $result->update($h->{'data'});
       }
       if ($self->verbose) {

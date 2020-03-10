@@ -1,5 +1,8 @@
 LIST OF CHANGES
 
+ - wh loader: when linking to LIMS data, for whole lane libraries
+   disregard superfluous tag_index value in the iseq_flowcell table
+
 release 42.10.0
  - load uqc outcomes to iseq_product_metrics table and use
    this value, if defined, to set the overall qc outcome
